@@ -1,7 +1,14 @@
+// @title XTS Protocol API
+// @version 1.0.0-alpha
+// @description Open Source Message Transport Runtime
+// @host localhost:8080
+// @BasePath /
+
 package main
 
 import (
 	"github.com/xts-protocol/xtsd/internal/api"
+	"github.com/xts-protocol/xtsd/internal/config"
 	"github.com/xts-protocol/xtsd/internal/metrics"
 	"github.com/xts-protocol/xtsd/internal/receipt"
 	"log"
@@ -9,6 +16,10 @@ import (
 )
 
 func main() {
+	if err := config.Load(); err != nil {
+		log.Fatal(err)
+	}
+
 	metrics.Load()
 	receipt.Load()
 	http.HandleFunc("/health", api.HealthHandler)
@@ -21,7 +32,16 @@ func main() {
 	http.HandleFunc("/v1/dashboard", api.DashboardHandler)
 	http.HandleFunc("/v1/receipt", api.ReceiptHandler)
 
-	log.Println("XTS Node starting on :8080")
+	addr := ":" + config.App.ListenPort
 
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Printf(
+		"XTS Node %s starting on %s",
+		config.App.NodeName,
+		addr,
+	)
+
+	log.Fatal(
+		http.ListenAndServe(addr, nil),
+	)
+
 }

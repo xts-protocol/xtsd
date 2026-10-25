@@ -1,0 +1,24 @@
+basePath: /
+host: localhost:8080
+info:
+  contact: {}
+  description: Open Source Message Transport Runtime
+  title: XTS Protocol API
+  version: 1.0.0-alpha
+paths:
+  /health:
+    get:
+      description: Check XTS Node status
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Health Check
+      tags:
+      - System
+swagger: "2.0"

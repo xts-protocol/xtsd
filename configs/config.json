@@ -1,0 +1,6 @@
+{
+  "node_name": "xtsd",
+  "listen_port": "8080",
+  "environment": "dev",
+  "price_per_message": 0.000001
+}
