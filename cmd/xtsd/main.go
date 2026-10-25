@@ -3,11 +3,12 @@ package main
 import (
 	"log"
 	"net/http"
-
+	"github.com/xts-protocol/xtsd/internal/metrics"
 	"github.com/xts-protocol/xtsd/internal/api"
 )
 
 func main() {
+	metrics.Load()
 	http.HandleFunc("/health", api.HealthHandler)
 	http.HandleFunc("/v1/send", api.SendHandler)
 	http.HandleFunc("/metrics", api.MetricsHandler)
