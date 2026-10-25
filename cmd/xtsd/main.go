@@ -40,6 +40,10 @@ func main() {
 		"/v1/receipts",
 		api.ReceiptsHandler,
 	)
+	http.HandleFunc(
+		"/metrics/prometheus",
+		api.PrometheusHandler,
+	)
 	addr := ":" + config.App.ListenPort
 
 	log.Printf(
