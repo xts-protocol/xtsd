@@ -1,5 +1,21 @@
 package auth
 
+import (
+	"log"
+
+	"github.com/xts-protocol/xtsd/internal/tenant"
+)
+
 func ValidateAPIKey(key string) bool {
-	return key == "xts_demo_key"
+
+	_, ok := tenant.Get(key)
+
+	log.Println(
+		"apikey",
+		key,
+		"valid",
+		ok,
+	)
+
+	return ok
 }

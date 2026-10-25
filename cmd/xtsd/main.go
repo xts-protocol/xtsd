@@ -11,6 +11,7 @@ import (
 	"github.com/xts-protocol/xtsd/internal/config"
 	"github.com/xts-protocol/xtsd/internal/metrics"
 	"github.com/xts-protocol/xtsd/internal/receipt"
+	"github.com/xts-protocol/xtsd/internal/tenant"
 	"log"
 	"net/http"
 )
@@ -19,7 +20,7 @@ func main() {
 	if err := config.Load(); err != nil {
 		log.Fatal(err)
 	}
-
+	tenant.LoadRegistry()
 	metrics.Load()
 	receipt.Load()
 	http.HandleFunc("/health", api.HealthHandler)
@@ -31,7 +32,14 @@ func main() {
 	http.HandleFunc("/v1/tenant", api.TenantHandler)
 	http.HandleFunc("/v1/dashboard", api.DashboardHandler)
 	http.HandleFunc("/v1/receipt", api.ReceiptHandler)
-
+	http.HandleFunc(
+		"/v1/apikey/create",
+		api.APIKeyCreateHandler,
+	)
+	http.HandleFunc(
+		"/v1/receipts",
+		api.ReceiptsHandler,
+	)
 	addr := ":" + config.App.ListenPort
 
 	log.Printf(

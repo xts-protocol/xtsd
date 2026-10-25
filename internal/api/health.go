@@ -1,10 +1,10 @@
-
 package api
 
 import (
 	"encoding/json"
 	"net/http"
 )
+
 // HealthHandler godoc
 //
 // @Summary Health Check

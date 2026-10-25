@@ -54,12 +54,12 @@ func SendHandler(w http.ResponseWriter, r *http.Request) {
 	receipt.Save(
 		receipt.Receipt{
 			MessageID: messageID,
+			APIKey:    apiKey,
 			Sender:    req.Sender,
 			Receiver:  req.Receiver,
 			Timestamp: timestamp,
 		},
 	)
-
 	response := map[string]any{
 		"accepted":   true,
 		"message_id": messageID,

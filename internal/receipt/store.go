@@ -57,3 +57,24 @@ func Get(id string) (Receipt, bool) {
 
 	return r, ok
 }
+func ListByAPIKey(
+	apiKey string,
+) []Receipt {
+
+	mu.RLock()
+	defer mu.RUnlock()
+
+	var result []Receipt
+
+	for _, r := range Receipts {
+
+		if r.APIKey == apiKey {
+			result = append(
+				result,
+				r,
+			)
+		}
+	}
+
+	return result
+}
