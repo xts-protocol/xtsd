@@ -1,14 +1,16 @@
 package main
 
 import (
+	"github.com/xts-protocol/xtsd/internal/api"
+	"github.com/xts-protocol/xtsd/internal/metrics"
+	"github.com/xts-protocol/xtsd/internal/receipt"
 	"log"
 	"net/http"
-	"github.com/xts-protocol/xtsd/internal/metrics"
-	"github.com/xts-protocol/xtsd/internal/api"
 )
 
 func main() {
 	metrics.Load()
+	receipt.Load()
 	http.HandleFunc("/health", api.HealthHandler)
 	http.HandleFunc("/v1/send", api.SendHandler)
 	http.HandleFunc("/metrics", api.MetricsHandler)
@@ -17,6 +19,7 @@ func main() {
 	http.HandleFunc("/v1/billing", api.BillingHandler)
 	http.HandleFunc("/v1/tenant", api.TenantHandler)
 	http.HandleFunc("/v1/dashboard", api.DashboardHandler)
+	http.HandleFunc("/v1/receipt", api.ReceiptHandler)
 
 	log.Println("XTS Node starting on :8080")
 
