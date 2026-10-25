@@ -3,6 +3,8 @@ package api
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/xts-protocol/xtsd/internal/auth"
+	"github.com/xts-protocol/xtsd/internal/metrics"
 	"net/http"
 	"sync/atomic"
 	"time"
@@ -15,6 +17,14 @@ type SendRequest struct {
 }
 
 func SendHandler(w http.ResponseWriter, r *http.Request) {
+
+	apiKey := r.Header.Get("X-API-Key")
+
+	if !auth.ValidateAPIKey(apiKey) {
+		http.Error(w, "invalid api key", http.StatusUnauthorized)
+		return
+	}
+	metrics.Increment(apiKey)
 	if r.Method != http.MethodPost {
 		http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
 		return
